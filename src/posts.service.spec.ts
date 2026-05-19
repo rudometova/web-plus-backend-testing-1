@@ -22,12 +22,19 @@ describe('PostsService', () => {
   });
 
   it('.find() should find a post by id', () => {
-    const created = postsService.create(posts[0]);
+
+    const firstPost = postsService.create(posts[0]);
+    const secondPost = postsService.create(posts[1]);
     
-    const found = postsService.find(created.id);
+
+    const found = postsService.find(secondPost.id);
     
+
     expect(found).toBeDefined();
-    expect(found?.id).toBe(created.id);
-    expect(found?.text).toBe(posts[0].text);
+    expect(found?.id).toBe(secondPost.id);
+    expect(found?.text).toBe(posts[1].text);
+    
+
+    expect(found?.id).not.toBe(firstPost.id);
   });
 });
