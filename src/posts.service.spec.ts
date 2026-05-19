@@ -1,22 +1,33 @@
-import { Post, PostsService } from './posts.service';
+import { PostsService } from './posts.service';
 
 describe('PostsService', () => {
   let postsService: PostsService;
-  const post: Omit<Post, 'id' | 'date'> = {
-    text: 'Mocked post',
-  };
+  const posts = [
+    { text: 'Some pre-existing post' },
+    { text: 'Write some tests' },
+  ];
 
-  beforeEach(async () => {
+  beforeEach(() => {
     postsService = new PostsService();
-
-    postsService.create({ text: 'Some pre-existing post' });
   });
 
-  it('should add a new post', () => {
-    // реализуйте тест-кейс
+  it('.create() should add a new post', () => {
+    const newPost = posts[0];
+    
+    const result = postsService.create(newPost);
+    
+    expect(result.text).toBe(newPost.text);
+    expect(result.id).toBeDefined();
+    expect(result.date).toBeDefined();
   });
 
-  it('should find a post', () => {
-    // реализуйте тест-кейс
+  it('.find() should find a post by id', () => {
+    const created = postsService.create(posts[0]);
+    
+    const found = postsService.find(created.id);
+    
+    expect(found).toBeDefined();
+    expect(found?.id).toBe(created.id);
+    expect(found?.text).toBe(posts[0].text);
   });
 });
